@@ -2,6 +2,7 @@ com\e3mall\pojo\TbItemExample$Criterion.class
 com\e3mall\pojo\TbContentCategoryExample.class
 com\e3mall\pojo\TbUserExample$Criterion.class
 com\e3mall\pojo\TbContentCategoryExample$GeneratedCriteria.class
+com\e3mall\pojo\EasyUITreeNode.class
 com\e3mall\pojo\TbOrderItemExample$Criteria.class
 com\e3mall\pojo\TbOrderExample$Criterion.class
 com\e3mall\pojo\TbItemParam.class
@@ -18,6 +19,7 @@ com\e3mall\pojo\TbOrderExample.class
 com\e3mall\pojo\TbItem.class
 com\e3mall\pojo\TbItemDescExample$Criteria.class
 com\e3mall\pojo\TbOrderItemExample.class
+com\e3mall\pojo\EasyUIDataGridResult.class
 com\e3mall\pojo\TbItemExample$GeneratedCriteria.class
 com\e3mall\pojo\TbUserExample$Criteria.class
 com\e3mall\pojo\TbItemExample.class
