@@ -1,13 +1,18 @@
 package com.e3mall.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.e3mall.common.pojo.E3Result;
+import com.e3mall.common.utils.IDUtils;
+import com.e3mall.mapper.TbItemDescMapper;
 import com.e3mall.mapper.TbItemMapper;
 import com.e3mall.pojo.EasyUIDataGridResult;
 import com.e3mall.pojo.TbItem;
+import com.e3mall.pojo.TbItemDesc;
 import com.e3mall.pojo.TbItemExample;
 import com.e3mall.pojo.TbItemExample.Criteria;
 import com.e3mall.service.ItemService;
@@ -19,6 +24,9 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private TbItemMapper itemMapper;
+	
+	@Autowired
+	private TbItemDescMapper itemDescMapper;
 	
 	/**
 	 * 根据ID获取Item对象
@@ -38,6 +46,9 @@ public class ItemServiceImpl implements ItemService {
 		return null;
 	}
 
+	/**
+	 * 分区商品分页数据
+	 */
 	@Override
 	public EasyUIDataGridResult getItemList(int page, int rows) {
 		//设置分页信息
@@ -56,8 +67,34 @@ public class ItemServiceImpl implements ItemService {
 			
 		return result;
 	}
-	
-	
+
+	/**
+	 * 新增商品
+	 */
+	@Override
+	public E3Result addItem(TbItem item, String desc) {
+		//生成商品id
+		long itemId = IDUtils.genItemId();
+		//补全商品信息
+		item.setId(itemId);
+		//向商品表插入数据
+		//1-正常，2-下架，3-删除
+		item.setStatus((byte)1);
+		item.setCreated(new Date());
+		item.setUpdated(new Date());
+		itemMapper.insert(item);
+		//创建一个商品描述表对应的pojo对象
+		TbItemDesc itemDesc = new TbItemDesc();
+		//补全属性
+		itemDesc.setItemId(itemId);
+		itemDesc.setItemDesc(desc);
+		itemDesc.setCreated(new Date());
+		itemDesc.setUpdated(new Date());
+		//向商品描述表插入数据
+		itemDescMapper.insert(itemDesc);
+		//返回成功
+		return E3Result.ok();
+	}
 	
 
 }
