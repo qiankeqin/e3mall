@@ -2,15 +2,15 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.ximua</groupId>
-    <artifactId>e3-parent</artifactId>
+    <artifactId>e3-content</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>e3-manager-web</artifactId>
+  <artifactId>e3-content-service</artifactId>
   <packaging>war</packaging>
-  <dependencies>
+   <dependencies>
   	<dependency>
 	    <groupId>com.ximua</groupId>
-	    <artifactId>e3-manager-interface</artifactId>
+	    <artifactId>e3-manager-dao</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<dependency>
@@ -18,22 +18,7 @@
 	    <artifactId>e3-content-interface</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
   	</dependency>
-	<!-- JSP相关 -->
-	<dependency>
-		<groupId>jstl</groupId>
-		<artifactId>jstl</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>servlet-api</artifactId>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>jsp-api</artifactId>
-		<scope>provided</scope>
-	</dependency>
-	<!-- Spring -->
+  	<!-- Spring -->
 	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-context</artifactId>
@@ -85,27 +70,5 @@
 		<groupId>com.github.sgroschupf</groupId>
 		<artifactId>zkclient</artifactId>
 	</dependency>
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-	</dependency>
-	<!-- 文件上传组件 -->
-	<dependency>
-		<groupId>commons-fileupload</groupId>
-		<artifactId>commons-fileupload</artifactId>
-	</dependency>
   </dependencies>
- <build>
-	<plugins>
-		<!-- 配置Tomcat插件 -->
-		<plugin>
-			<groupId>org.apache.tomcat.maven</groupId>
-			<artifactId>tomcat7-maven-plugin</artifactId>
-			<configuration>
-			<path>/</path>
-			<port>8082</port>
-			</configuration>
-		</plugin>
-	</plugins>
-  </build>
 </project>

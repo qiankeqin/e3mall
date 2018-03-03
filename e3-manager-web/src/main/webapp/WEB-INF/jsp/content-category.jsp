@@ -15,9 +15,11 @@ $(function(){
 		url : '/content/category/list',
 		animate: true,
 		method : "GET",
+		//e事件（包含事件的信息，如坐标等），node在那个节点上发生的事件
 		onContextMenu: function(e,node){
             e.preventDefault();
             $(this).tree('select',node.target);
+            //显示右键菜单，并定义坐标
             $('#contentCategoryMenu').menu('show',{
                 left: e.pageX,
                 top: e.pageY
