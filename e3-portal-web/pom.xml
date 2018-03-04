@@ -10,6 +10,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <dependencies>
+  	<dependency>
+	    <groupId>com.ximua</groupId>
+	    <artifactId>e3-content-interface</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   	<!-- JSP相关 -->
 	<dependency>
 		<groupId>jstl</groupId>
