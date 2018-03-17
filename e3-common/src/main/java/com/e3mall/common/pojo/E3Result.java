@@ -13,6 +13,9 @@ public class E3Result implements Serializable {
 
     // 定义jackson对象
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    //状态码
+    public static final Integer EXCEPTION_CODE=-100;
+    public static final Integer ERROR_CODE = -101;
 
     // 响应业务状态
     private Integer status;
