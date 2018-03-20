@@ -3,7 +3,16 @@ package com.e3mall.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
 import com.e3mall.common.pojo.E3Result;
@@ -27,6 +36,12 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
 	private TbItemDescMapper itemDescMapper;
+	
+	@Autowired
+	private JmsTemplate jmsTemplate;
+	
+	@Resource
+	private Destination topicDestination;
 	
 	/**
 	 * 根据ID获取Item对象
@@ -74,7 +89,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public E3Result addItem(TbItem item, String desc) {
 		//生成商品id
-		long itemId = IDUtils.genItemId();
+		final long itemId = IDUtils.genItemId();
 		//补全商品信息
 		item.setId(itemId);
 		//向商品表插入数据
@@ -92,6 +107,19 @@ public class ItemServiceImpl implements ItemService {
 		itemDesc.setUpdated(new Date());
 		//向商品描述表插入数据
 		itemDescMapper.insert(itemDesc);
+		
+		//发送消息,但是这个时候有个问题，因为事务还没有提交
+		//解决方法1）在消息消费的地方，取出消息后，等待一会，在进行查询
+		//解决方法2）在事务提交后再进行发送消息，即再表现层发送。（更加保险）
+		jmsTemplate.send(topicDestination, new MessageCreator() {
+			
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				TextMessage text = session.createTextMessage(itemId+"");
+				return text;
+			}
+		});
+		
 		//返回成功
 		return E3Result.ok();
 	}
