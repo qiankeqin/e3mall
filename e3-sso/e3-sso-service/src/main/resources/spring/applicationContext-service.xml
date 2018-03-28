@@ -18,9 +18,11 @@
 	<dubbo:application name="e3-sso"></dubbo:application>
 	<!-- 如果时zookeeper集群，那么配置多个address中的ip以逗号分隔 --> 
 	<dubbo:registry protocol="zookeeper" address="192.168.25.135:2181"></dubbo:registry>
-	<!-- 用dubbo协议在20881端口暴露服务,每个注册的dubbo服务的端口号需要区别，否则冲突 -->
+	<!-- 用dubbo协议在20883端口暴露服务,每个注册的dubbo服务的端口号需要区别，否则冲突 -->
 	<dubbo:protocol name="dubbo" port="20883"></dubbo:protocol>
 	<!-- 声明需要暴露的服务接口 --> 
-	<!-- com.e3mall.service.ItemService 全限定名 -->
-<!-- 	<dubbo:service interface="com.e3mall.sso.service.ContentCategoryService" ref="contentCategoryServiceImpl" timeout="600000"/> -->
+	<!-- com.e3mall.sso.service.RegisterService 全限定名 -->
+	<dubbo:service interface="com.e3mall.sso.service.RegisterService" ref="registerServiceImpl" timeout="600000"/>
+	<dubbo:service interface="com.e3mall.sso.service.LoginService" ref="loginServiceImpl" timeout="600000"/>
+	<dubbo:service interface="com.e3mall.sso.service.TokenService" ref="tokenServiceImpl" timeout="600000"/>
 </beans>
