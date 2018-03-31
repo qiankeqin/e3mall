@@ -22,5 +22,5 @@
 	<dubbo:protocol name="dubbo" port="20884"></dubbo:protocol>
 	<!-- 声明需要暴露的服务接口 --> 
 	<!-- com.e3mall.service.ItemService 全限定名 -->
-	<!-- <dubbo:service interface="com.e3mall.content.service.ContentCategoryService" ref="contentCategoryServiceImpl" timeout="600000"/> -->
+	<dubbo:service interface="com.e3mall.cart.service.CartService" ref="cartServiceImpl" timeout="600000"/>
 </beans>

@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.e3mall.cart.service.CartService;
 import com.e3mall.common.pojo.E3Result;
 import com.e3mall.common.utils.CookieUtils;
 import com.e3mall.common.utils.JsonUtils;
 import com.e3mall.pojo.TbItem;
+import com.e3mall.pojo.TbUser;
 import com.e3mall.service.ItemService;
 
 /**
@@ -30,6 +32,8 @@ import com.e3mall.service.ItemService;
 public class CartController {
 	@Autowired
 	private ItemService itemService;
+	@Autowired
+	private CartService cartService;
 	@Value("${COOKIE_CART_EXPIRE}")
 	private Integer COOKIE_CART_EXPIRE;
 	
@@ -48,6 +52,16 @@ public class CartController {
 	@RequestMapping("/cart/add/{itemId}")
 	public String addCart(@PathVariable Long itemId,@RequestParam(defaultValue="1") Integer num,
 			HttpServletRequest request,HttpServletResponse response){
+		//首先判断用户是否登陆
+		TbUser user = (TbUser) request.getAttribute("user");
+		//如果时登陆状态，把购物车写入到redis
+		if(user!=null){
+			//保存到服务端
+			cartService.addCart(user.getId(), itemId, num);
+			//返回逻辑视图
+			return "cartSuccess";
+		}
+		//如果未登陆，把购物车写入到cookie
 		//从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		//判断商品在商品列表中是否存在

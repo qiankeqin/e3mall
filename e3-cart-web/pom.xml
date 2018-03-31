@@ -17,6 +17,11 @@
   	</dependency>
   	<dependency>
 	    <groupId>com.ximua</groupId>
+	    <artifactId>e3-sso-interface</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+	    <groupId>com.ximua</groupId>
 	    <artifactId>e3-manager-interface</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
   	</dependency>
