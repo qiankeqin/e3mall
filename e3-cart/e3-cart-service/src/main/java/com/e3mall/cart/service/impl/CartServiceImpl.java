@@ -1,5 +1,8 @@
 package com.e3mall.cart.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,5 +55,54 @@ public class CartServiceImpl implements CartService {
 		//返回成功
 		return E3Result.ok();
 	}
+	
+	//合并cookie中的购物车和数据库中的购物车
+	@Override
+	public E3Result mergeCart(long userId, List<TbItem> list) {
+		//遍历列表		
+		//把商品添加到购物车		
+		//判断数据库中是否存在此商品		
+		//如果是，那么数量相加
+		//如果不是，那么增加商品
+		for(TbItem tbItem : list){
+			addCart(userId,tbItem.getId(),tbItem.getNum());
+		}
+		return E3Result.ok();
+	}
+
+	//根据用户ID，查询用户的购物车列表
+	@Override
+	public List<TbItem> getCartList(long userId) {
+		//直接取redis中的hash的值即可
+		List<String> jsonList = jedisClient.hvals(REDIS_CART_PRE+":"+userId);
+		List<TbItem> itemList = new ArrayList<TbItem>();
+		for(String json : jsonList){
+			itemList.add(JsonUtils.jsonToPojo(json, TbItem.class));
+		}
+		return itemList;
+	}
+
+	//更新购物车数量
+	@Override
+	public E3Result updateCartNum(long userId, long itemId, int num) {
+		//从redis中取商品信息
+		String json = jedisClient.hget(REDIS_CART_PRE+":"+userId, itemId+"");
+		//更新商品数量
+		TbItem tbItem = JsonUtils.jsonToPojo(json, TbItem.class);
+		tbItem.setNum(num);
+		//写入redis
+		jedisClient.hset(REDIS_CART_PRE+":"+userId, itemId+"", JsonUtils.objectToJson(tbItem));
+		return E3Result.ok();
+	}
+
+	//删除购物车条目
+	@Override
+	public E3Result deleteCartItem(long userId, long itemId) {
+		//删除购物车商品
+		jedisClient.hdel(REDIS_CART_PRE+":"+userId, itemId+"");
+		return E3Result.ok();
+	}
+	
+	
 
 }
