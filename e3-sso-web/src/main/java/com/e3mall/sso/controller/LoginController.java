@@ -29,7 +29,8 @@ public class LoginController {
 	
 	//显示登陆页面
 	@RequestMapping("/page/login")
-	public String showLogin(){
+	public String showLogin(String redirect,Model model){
+		model.addAttribute("redirect", redirect);
 		return "login";
 	}
 	
